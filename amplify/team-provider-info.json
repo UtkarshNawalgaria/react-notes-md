@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "reactnotesf5ee4b94": {}
+      },
+      "function": {
+        "reactnotesfn": {
+          "deploymentBucketName": "amplify-reactnotes-dev-154309-deployment",
+          "s3Key": "amplify-builds/reactnotesfn-52436a6942774e644679-build.zip"
+        }
       }
     }
   }
