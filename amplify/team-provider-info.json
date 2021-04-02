@@ -10,6 +10,11 @@
       "StackName": "amplify-reactnotes-dev-154309",
       "StackId": "arn:aws:cloudformation:us-east-1:650662026110:stack/amplify-reactnotes-dev-154309/09e4e870-939c-11eb-a4a4-12c1d85cca19",
       "AmplifyAppId": "dan5tq2axxci4"
+    },
+    "categories": {
+      "auth": {
+        "reactnotesf5ee4b94": {}
+      }
     }
   }
 }
