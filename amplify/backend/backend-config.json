@@ -1,33 +1,27 @@
 {
   "auth": {
-    "reactnotesf5ee4b94": {
+    "reactnotes99fd71d9": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false
     }
   },
-  "function": {
-    "reactnotesfn": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
   "api": {
-    "reactnotesmd": {
-      "service": "API Gateway",
+    "NotesApi": {
+      "service": "AppSync",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "reactnotesfn",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authreactnotes99fd71d9"
+            }
+          },
+          "additionalAuthenticationProviders": []
         }
-      ]
+      }
     }
   }
 }

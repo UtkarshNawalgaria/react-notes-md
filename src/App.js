@@ -1,35 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
-
-import { API, Auth } from 'aws-amplify'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import MyRoute from "./components/MyRoute";
+import NotesPage from "./pages/admin";
+import HomePage from "./pages/home";
 
 function App() {
-  async function callApi() {
-    const user = await Auth.currentAuthenticatedUser()
-    const token = user.signInUserSession.idToken.jwtToken
-    console.log({token})
-
-    const requestInfo = {
-      headers: {
-        Authorization: token
-      }
-    }
-
-    const data = await API.get("reactnotesmd", "/hello", requestInfo);
-    console.log({ data })
-  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button onClick={callApi}>Click Me</button>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <MyRoute exact={true} path="/">
+            <div className="grid h-screen place-content-center">
+              <HomePage />
+            </div>
+          </MyRoute>
+          <MyRoute path="/admin">
+            <NotesPage />
+          </MyRoute>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
-export default withAuthenticator(App);
+export default App;

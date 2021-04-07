@@ -1,0 +1,31 @@
+type Folder
+  @model
+  @auth(rules: [{ allow: owner }])
+  @key(
+    name: "foldersByDate"
+    fields: ["id", "createdAt"]
+    queryField: "foldersByDate"
+  ) {
+  id: ID!
+  title: String!
+  notes: [Note] @connection(keyName: "byNote", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Note
+  @model
+  @auth(rules: [{ allow: owner }])
+  @key(name: "byNote", fields: ["folderId"])
+  @key(
+    name: "notesByDate"
+    fields: ["id", "createdAt"]
+    queryField: "notesByDate"
+  ) {
+  id: ID!
+  folderId: ID!
+  title: String!
+  content: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
