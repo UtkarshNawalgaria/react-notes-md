@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Switch } from "react-router-dom";
-import MyRoute from "./components/MyRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotesPage from "./pages/admin";
+import ContactPage from "./pages/contact";
 import HomePage from "./pages/home";
 
 function App() {
@@ -8,14 +8,9 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <MyRoute exact={true} path="/">
-            <div className="grid h-screen place-content-center">
-              <HomePage />
-            </div>
-          </MyRoute>
-          <MyRoute path="/admin">
-            <NotesPage />
-          </MyRoute>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/admin" component={NotesPage} />
+          <Route path="/contact" component={ContactPage} />
         </Switch>
       </div>
     </Router>
