@@ -15,7 +15,7 @@ const NotesPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get all the Folders
+      
         const {
           data: {
             listFolders: { items },
