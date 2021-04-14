@@ -1,40 +1,20 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { API } from "aws-amplify";
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import FolderSection from "../components/FolderSection";
 import MarkdownEditor from "../components/MarkdownEditor";
 import NotesSection from "../components/NotesSection";
-import { listFolders } from "../graphql/queries";
 import { useAuth } from "../hooks/auth";
-import useNotes from "../store";
+import { fetchData } from '../features/notes'
+
 
 const NotesPage = () => {
   const auth = useAuth();
-  const { dispatch } = useNotes();
+  const dispatch = useDispatch()
+  const { note } = useSelector((state) => state.notes)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Get all the Folders
-        const {
-          data: {
-            listFolders: { items },
-          },
-        } = await API.graphql({
-          query: listFolders,
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-        });
-    
-        dispatch({
-          type: "SET_DATA",
-          payload: { items },
-        });
-      } catch (err) {
-        console.error("Inside Fetch", err.message);
-      }
-    };
-
-    fetchData();
+    dispatch(fetchData())
   }, [dispatch]);
 
   return (
@@ -60,7 +40,7 @@ const NotesPage = () => {
         </aside>
         <main className="w-full p-10 text-white bg-gray-500">
           <div className="prose max-w-none">
-            <MarkdownEditor />
+            <MarkdownEditor note={note}/>
           </div>
         </main>
       </div>

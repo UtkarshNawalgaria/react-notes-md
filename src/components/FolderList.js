@@ -1,16 +1,30 @@
 import { ArrowCircleRightIcon, FolderIcon } from "@heroicons/react/solid";
 import React from "react";
-import useNotes from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchNoteById,
+  setCurrentFolder,
+  setCurrentNote,
+} from "../features/notes";
 
 const FolderList = () => {
-  const {
-    state: { folders, currentFolderId },
-    dispatch,
-  } = useNotes();
+  const { folders, currentFolderId, notes } = useSelector(
+    (state) => state.notes
+  );
+  const dispatch = useDispatch();
 
   const handleClick = (id) => {
-    dispatch({ type: "SET_CURRENT_FOLDER_ID", payload: { id } });
+    dispatch(setCurrentFolder({ id }));
+    if (notes[id].length === 0) {
+      dispatch(setCurrentNote({ note: { id: "", title: "", content: "" } }));
+    } else {
+      dispatch(fetchNoteById(notes[id][0].id));
+    }
   };
+
+  if (folders.length === 0) {
+    return <div className="text-white pl-4">Create New Folders</div>;
+  }
 
   return (
     <>
