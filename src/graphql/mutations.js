@@ -78,8 +78,6 @@ export const createNote = /* GraphQL */ `
     createNote(input: $input, condition: $condition) {
       id
       title
-      content
-      folderId
     }
   }
 `;

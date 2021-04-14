@@ -1,6 +1,8 @@
 import { API } from "aws-amplify";
 import { useState } from "react";
 import { createFolder } from "../../graphql/mutations";
+import { addNewFolder } from "../../features/notes";
+import { useDispatch} from "react-redux"
 
 const initalValues = {
   title: "",
@@ -8,19 +10,20 @@ const initalValues = {
 
 const AddFolderForm = ({ hideForm }) => {
   const [formState, setFormState] = useState(initalValues);
+  const dispatch = useDispatch()
 
   async function handleSubmit(e) {
     e.preventDefault();
     const folder = { ...formState };
     try {
-      const newFolder = await API.graphql({
+      const {data: {createFolder: newFolder}} = await API.graphql({
         query: createFolder,
         variables: {
           input: folder,
         },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
-      console.log(newFolder)
+      dispatch(addNewFolder({ folder: newFolder}));
     } catch (err) {
       console.error(err.message);
     }

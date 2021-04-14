@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
-import useNotes from '../store'
 import SimpleMDE from 'react-simplemde-editor'
 import "easymde/dist/easymde.min.css";
 
+const MarkdownEditor = ({ note }) => {
 
-const MarkdownEditor = () => {
-
-    const {state: { note }} = useNotes()
     const [text, setText] = useState(note.content)
-
+    console.log(text)
     function handleChange(value) {
         setText(value)
     }
