@@ -1,9 +1,14 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   folders: [],
   notes: {},
-  currentId: "",
+  currentFolderId: "",
+  note: {
+    id: "",
+    title: "",
+    content: "",
+  },
 };
 const NotesContext = createContext(initialState);
 
@@ -12,8 +17,9 @@ const reducer = (state, action) => {
   switch (type) {
     case "SET_DATA":
       let notes = {};
-      if(payload.items.length === 0) {
-        return state
+      let note = {}
+      if (payload.items.length === 0) {
+        return state;
       }
       payload.items.forEach((folder) => {
         if (folder.notes.items.length) {
@@ -22,27 +28,40 @@ const reducer = (state, action) => {
           notes = { ...notes, [folder.id]: [] };
         }
       });
+      const firstId = payload.items[0].id
+      if(notes[firstId].length) {
+        note = notes.firstId[0]
+        note.content = ""
+      }
       return {
         ...state,
         notes,
         folders: payload.items,
-        currentId: payload.items[0].id,
+        currentFolderId: payload.items[0].id,
+        note
       };
     case "ADD_NOTE":
-      let data = state.notes
-      data[state.currentId].unshift(payload.note)
+      let data = state.notes;
+      data[state.currentFolderId].unshift(payload.note);
       return {
         ...state,
         notes: data,
       };
-    case "SET_CURRENT_ID":
-      return { ...state, currentId: payload.id };
+    case "ADD_FOLDER":
+      return state;
+    case "SET_CURRENT_FOLDER_ID":
+      return { ...state, currentFolderId: payload.id };
+    case "SET_CURRENT_NOTE":
+      if(payload.note) {
+        return { ...state, note: payload.note };
+      }
+      return {...state}
     default:
       return state;
   }
 };
 
-const NotesProvider = ({ children }) => {
+export const NotesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
@@ -52,4 +71,8 @@ const NotesProvider = ({ children }) => {
   );
 };
 
-export { NotesContext, NotesProvider };
+const useNotes = () => {
+  return useContext(NotesContext);
+};
+
+export default useNotes;

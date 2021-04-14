@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
-import { NotesContext } from "../store";
+import { useState } from "react";
+import useNotes from "../../store";
 import { API } from 'aws-amplify'
-import {createNote} from '../graphql/mutations'
+import {createNote} from '../../graphql/mutations'
 
 const initalValues = {
   title: "",
@@ -10,11 +10,11 @@ const initalValues = {
 
 const AddNoteForm = ({ hideForm }) => {
   const [formState, setFormState] = useState(initalValues);
-  const { state: { currentId }, dispatch } = useContext(NotesContext);
+  const { state: { currentFolderId }, dispatch } = useNotes()
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const note = { ...formState, folderId: currentId }
+    const note = { ...formState, folderId: currentFolderId }
     try {
       const data = await API.graphql({
         query: createNote,

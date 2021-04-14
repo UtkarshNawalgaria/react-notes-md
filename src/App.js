@@ -1,19 +1,25 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotesPage from "./pages/admin";
-import ContactPage from "./pages/contact";
 import HomePage from "./pages/home";
+import AuthProvider from './hooks/auth'
+
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/admin" component={NotesPage} />
-          <Route path="/contact" component={ContactPage} />
-        </Switch>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="w-full">
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route path="/admin">
+              <NotesPage />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -1,10 +1,12 @@
-import React from 'react'
+
 import {useRouteMatch} from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 const HomePage = () => {
     const {path} = useRouteMatch()
     return (
-      <div className="grid h-screen place-content-center">
+      <div className="max-w-4xl mx-auto container">
+        <Navbar />
         <h1>Home Page</h1>
         <p>Current Path: {path}</p>
       </div>

@@ -6,20 +6,13 @@ export const getFolder = /* GraphQL */ `
     getFolder(id: $id) {
       id
       title
-      createdAt
-      updatedAt
-      owner
       notes {
         items {
           id
           folderId
           title
           content
-          createdAt
-          updatedAt
-          owner
         }
-        nextToken
       }
     }
   }
@@ -79,12 +72,8 @@ export const getNote = /* GraphQL */ `
   query GetNote($id: ID!) {
     getNote(id: $id) {
       id
-      folderId
       title
       content
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;

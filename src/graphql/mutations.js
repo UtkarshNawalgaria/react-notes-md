@@ -9,20 +9,11 @@ export const createFolder = /* GraphQL */ `
     createFolder(input: $input, condition: $condition) {
       id
       title
-      createdAt
-      updatedAt
-      owner
       notes {
         items {
           id
-          folderId
           title
-          content
-          createdAt
-          updatedAt
-          owner
         }
-        nextToken
       }
     }
   }
