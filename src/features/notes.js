@@ -12,7 +12,7 @@ export const fetchData = createAsyncThunk("data/fetchData", async () => {
       query: listFolders,
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
-    return {items};
+    return { items };
   } catch (err) {
     console.error(err.message);
   }
@@ -20,19 +20,18 @@ export const fetchData = createAsyncThunk("data/fetchData", async () => {
 
 export const fetchNoteById = createAsyncThunk("note/fetchNote", async (id) => {
   try {
-      const {
-        data: { getNote: note },
-      } = await API.graphql({
-        query: getNote,
-        variables: { id },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      return {note}
-    } catch (err) {
-      console.error(err.message)
-    }
+    const {
+      data: { getNote: note },
+    } = await API.graphql({
+      query: getNote,
+      variables: { id },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
+    return { note };
+  } catch (err) {
+    console.error(err.message);
   }
-)
+});
 
 export const notesSlice = createSlice({
   name: "notes",
@@ -49,30 +48,36 @@ export const notesSlice = createSlice({
   },
   reducers: {
     setCurrentFolder: (state, action) => {
-      const { payload } = action
+      const { payload } = action;
       return {
         ...state,
-        currentFolderId: payload.id
-      }
+        currentFolderId: payload.id,
+      };
     },
     setCurrentNote: (state, action) => {
-      const { payload: {note} } = action
+      const {
+        payload: { note },
+      } = action;
       return {
         ...state,
-        note
-      }
+        note,
+      };
     },
     addNewFolder: (state, action) => {
-      const { payload: { folder } } = action
-      state.folders.push(folder)
-      state.notes = {...state.notes, [folder.id]: []}
-      state.currentFolderId = folder.id
+      const {
+        payload: { folder },
+      } = action;
+      state.folders.push(folder);
+      state.notes = { ...state.notes, [folder.id]: [] };
+      state.currentFolderId = folder.id;
     },
     addNewNote: (state, action) => {
-      const { payload: {note}} = action
-      state.notes[state.currentFolderId].push(note)
-      state.note = {...note, content: ""}
-    }
+      const {
+        payload: { note },
+      } = action;
+      state.notes[state.currentFolderId].push(note);
+      state.note = { ...note, content: "" };
+    },
   },
   extraReducers: {
     [fetchData.pending]: (state) => {
@@ -81,24 +86,26 @@ export const notesSlice = createSlice({
     [fetchData.fulfilled]: (state, action) => {
       const { payload } = action;
 
-      let notes = {}
-      payload.items.forEach((folder) => {
-        if (folder.notes.items.length) {
-          notes = { ...notes, [folder.id]: folder.notes.items };
-        } else {
-          notes = { ...notes, [folder.id]: [] };
-        }
-      });
+      if (payload.items.length > 0) {
+        let notes = {};
+        payload.items.forEach((folder) => {
+          if (folder.notes.items.length) {
+            notes = { ...notes, [folder.id]: folder.notes.items };
+          } else {
+            notes = { ...notes, [folder.id]: [] };
+          }
+        });
 
-      state.status = "success";
-      state.folders = payload.items
-      state.notes = notes
-      state.currentFolderId = payload.items[0].id
+        state.status = "success";
+        state.folders = payload.items;
+        state.notes = notes;
+        state.currentFolderId = payload.items[0].id;
+      }
     },
     [fetchNoteById.fulfilled]: (state, action) => {
       const { payload } = action;
-      state.note = payload.note
-    }
+      state.note = payload.note;
+    },
   },
 });
 

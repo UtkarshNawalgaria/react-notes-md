@@ -4,8 +4,8 @@ import {
     useHistory,
     useRouteMatch
 } from 'react-router-dom'
-import { useMemo, useEffect } from 'react'
-import { useAuth } from './auth'
+import { useMemo } from 'react'
+
 
 export function useRouter() {
     const params = useParams()
@@ -25,17 +25,4 @@ export function useRouter() {
             history,
         }
     }, [params, match, location, history])
-}
-
-export function useRequireAuth(redirectUrl = '/signup') {
-    const auth = useAuth()
-    const router = useRouter()
-
-    useEffect(() => {
-      if (auth.user === null) {
-        router.push(redirectUrl);
-      }
-    }, [auth, router, redirectUrl]);
-
-    return auth
 }

@@ -46,6 +46,7 @@ const AddNoteForm = ({ hideForm }) => {
         name="title"
         values={formState.title}
         onChange={handleChange}
+        placeholder="New Note Name..."
         className="w-full rounded-sm p-2 text-gray-500"
       />
     </form>

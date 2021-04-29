@@ -6,13 +6,19 @@ import App from "./App";
 import config from "./aws-exports";
 import "./index.css";
 import store from "./store";
+import { BrowserRouter as Router } from "react-router-dom";
+import AuthProvider from "./hooks/auth";
 
 Amplify.configure(config);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import SimpleMDE from 'react-simplemde-editor'
 import "easymde/dist/easymde.min.css";
 
-const MarkdownEditor = ({ note }) => {
+const MarkdownEditor = () => {
 
-    const [text, setText] = useState(note.content)
-    console.log(text)
+    const {note} = useSelector(state => state.notes)
+
+    const [text, setText] = useState(() => {
+      return note.content
+    })
+
     function handleChange(value) {
         setText(value)
     }
+
+    useEffect(() => {
+      setText(note.content)
+    }, [note.content])
 
     return (
       <div>

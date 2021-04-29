@@ -23,7 +23,7 @@ const FolderList = () => {
   };
 
   if (folders.length === 0) {
-    return <div className="text-white pl-4">Create New Folders</div>;
+    return <div className="text-gray-900 pl-4">Create New Folders</div>;
   }
 
   return (
@@ -34,8 +34,8 @@ const FolderList = () => {
             key={folder.id}
             onClick={() => handleClick(folder.id)}
             className={
-              "py-2 hover:bg-gray-600 cursor-pointer " +
-              (currentFolderId === folder.id ? "bg-gray-600" : "")
+              "py-2 text-gray-900 hover:bg-gray-200 cursor-pointer " +
+              (currentFolderId === folder.id ? "bg-gray-200" : "")
             }
           >
             <div className="px-4 flex justify-items-center items-center justify-between">
