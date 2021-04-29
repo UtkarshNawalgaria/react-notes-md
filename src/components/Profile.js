@@ -25,11 +25,6 @@ const Profile = () => {
       <div className="flex justify-between">
         {user ? <>{user.username}</> : ""}
       </div>
-      {/* <button
-        onClick={() => setIsOpen(false)}
-        className={`fixed top-0 bottom-0 right-0 w-full h-full bg-red-500 ${
-          isOpen ? "block" : "hidden"
-        }`}></button> */}
       {isOpen ? <Settings functions={{ signout }} /> : ""}
     </div>
   );
